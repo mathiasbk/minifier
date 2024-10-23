@@ -1,0 +1,14 @@
+c:\Users\Mathias\Documents\c#\Minifier\bin\Debug\net8.0\Minifier.exe
+c:\Users\Mathias\Documents\c#\Minifier\bin\Debug\net8.0\Minifier.deps.json
+c:\Users\Mathias\Documents\c#\Minifier\bin\Debug\net8.0\Minifier.runtimeconfig.json
+c:\Users\Mathias\Documents\c#\Minifier\bin\Debug\net8.0\Minifier.dll
+c:\Users\Mathias\Documents\c#\Minifier\bin\Debug\net8.0\Minifier.pdb
+c:\Users\Mathias\Documents\c#\Minifier\obj\Debug\net8.0\Minifier.GeneratedMSBuildEditorConfig.editorconfig
+c:\Users\Mathias\Documents\c#\Minifier\obj\Debug\net8.0\Minifier.AssemblyInfoInputs.cache
+c:\Users\Mathias\Documents\c#\Minifier\obj\Debug\net8.0\Minifier.AssemblyInfo.cs
+c:\Users\Mathias\Documents\c#\Minifier\obj\Debug\net8.0\Minifier.csproj.CoreCompileInputs.cache
+c:\Users\Mathias\Documents\c#\Minifier\obj\Debug\net8.0\Minifier.dll
+c:\Users\Mathias\Documents\c#\Minifier\obj\Debug\net8.0\refint\Minifier.dll
+c:\Users\Mathias\Documents\c#\Minifier\obj\Debug\net8.0\Minifier.pdb
+c:\Users\Mathias\Documents\c#\Minifier\obj\Debug\net8.0\Minifier.genruntimeconfig.cache
+c:\Users\Mathias\Documents\c#\Minifier\obj\Debug\net8.0\ref\Minifier.dll
