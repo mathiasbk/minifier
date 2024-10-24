@@ -4,6 +4,7 @@ namespace Minifier;
 
 using System;
 using System.IO;
+using System.Text.RegularExpressions;
 using languages;
 
 class Program
@@ -50,63 +51,33 @@ class Program
     {
         Console.WriteLine("Minifying file: " + path);
 
+        string filecontent = File.ReadAllText(path);
+
         html htmlclass = new html();
         js jsclass = new js();
         css cssclass = new css();
 
-        var CurrentSCriptType = "html";
-        var newContent = "";
+        //regex to identify the type of script
+        string scriptPattern = @"<script\b[^>]*>([\s\S]*?)<\/script>";
+        string stylePattern = @"<style\b[^>]*>([\s\S]*?)<\/style>";
 
-
-        //Puts each line of the file in a string array
-        var lines = File.ReadAllLines(path);
-
-        foreach(var line in lines)
+        //Minifi JS between script tags
+        filecontent = Regex.Replace(filecontent, scriptPattern, match =>
         {
-            //Console.WriteLine(line);
-            //Identify the type of script
-            if(line.Contains("<script"))
-            {
-                //Start of JS
-                CurrentSCriptType = "js";
-            }
-            else if(line.Contains("</script>"))
-            {
-                //End of JS
-                CurrentSCriptType = "html";
-            }
-            else if(line.Contains("<style"))
-            {
-                //Start of CSS
-                CurrentSCriptType = "css";
-            }
-            else if(line.Contains("</style>"))
-            {
-                //End of CSS
-                CurrentSCriptType = "html";
-            }
+            Console.WriteLine("Match found: " + match.Value);
             
-            if(CurrentSCriptType == "html")
-            {
-                //minif HTML
-                newContent += htmlclass.MinifyHTML(line);
-            }
-            else if(CurrentSCriptType == "js")
-            {
-                //Minify JS
-                newContent += jsclass.MinifyJS(line);
-            }
-            else if(CurrentSCriptType == "css")
-            {
-                //Minify CSS3
-                newContent += cssclass.MinifyCSS(line);
+            string scriptTags = match.Value;
+            string scriptContent = match.Groups[1].Value;
 
-            }
+            string minimisedScript = jsclass.MinifyJS(scriptContent);
 
+            return scriptTags.Replace(scriptContent, minimisedScript);
+        });
             
-        }
+        //regex to identify the type of style
+        Console.WriteLine("JS done. Current content: " + filecontent);
         //Everything is minimised, so we create the new file
-        CreateMinimizedFile(path, newContent);
+        //CreateMinimizedFile(path, newContent);
     }
 
     public static void CreateMinimizedFile(string path, string content)
