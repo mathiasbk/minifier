@@ -61,7 +61,7 @@ class Program
         string scriptPattern = @"<script\b[^>]*>([\s\S]*?)<\/script>";
         string stylePattern = @"<style\b[^>]*>([\s\S]*?)<\/style>";
 
-        //Minifi JS between script tags
+        //Minify JS
         filecontent = Regex.Replace(filecontent, scriptPattern, match =>
         {
             Console.WriteLine("Match found: " + match.Value);
@@ -73,11 +73,23 @@ class Program
 
             return scriptTags.Replace(scriptContent, minimisedScript);
         });
+
+        //Minify CSS
+        filecontent = Regex.Replace(filecontent, stylePattern, match =>
+        {
+            Console.WriteLine("Match found: " + match.Value);
             
-        //regex to identify the type of style
-        Console.WriteLine("JS done. Current content: " + filecontent);
+            string styleTags = match.Value;
+            string styleContent = match.Groups[1].Value;
+
+            string minimisedStyle = cssclass.MinifyCSS(styleContent);
+
+            return styleTags.Replace(styleContent, minimisedStyle);
+        });
+            
+        filecontent = htmlclass.MinifyHTML(filecontent);
         //Everything is minimised, so we create the new file
-        //CreateMinimizedFile(path, newContent);
+        CreateMinimizedFile(path, filecontent);
     }
 
     public static void CreateMinimizedFile(string path, string content)
