@@ -39,7 +39,7 @@ class Program
 
         foreach(string file in files)
         {
-            if(file.EndsWith(".html"))
+            if(file.EndsWith(".html") && !file.EndsWith(".min.html"))
             {
                 Minifyfile(file);
             }
@@ -49,7 +49,7 @@ class Program
 
     public static void Minifyfile(string path)
     {
-        Console.WriteLine("Minifying file: " + path);
+        Console.WriteLine("Minifying file: " + Path.GetFileName(path));
 
         string filecontent = File.ReadAllText(path);
 
@@ -63,9 +63,7 @@ class Program
 
         //Minify JS
         filecontent = Regex.Replace(filecontent, scriptPattern, match =>
-        {
-            Console.WriteLine("Match found: " + match.Value);
-            
+        {          
             string scriptTags = match.Value;
             string scriptContent = match.Groups[1].Value;
 
@@ -77,8 +75,6 @@ class Program
         //Minify CSS
         filecontent = Regex.Replace(filecontent, stylePattern, match =>
         {
-            Console.WriteLine("Match found: " + match.Value);
-            
             string styleTags = match.Value;
             string styleContent = match.Groups[1].Value;
 
@@ -90,6 +86,10 @@ class Program
         filecontent = htmlclass.MinifyHTML(filecontent);
         //Everything is minimised, so we create the new file
         CreateMinimizedFile(path, filecontent);
+
+        //wait for user input before closing
+        Console.WriteLine("Press any key to close");
+        Console.ReadKey();
     }
 
     public static void CreateMinimizedFile(string path, string content)
@@ -97,8 +97,16 @@ class Program
         
         var extension = Path.GetExtension(path);
         var NewFileName = Path.GetDirectoryName(path) +"\\"+ Path.GetFileNameWithoutExtension(path) + ".min" + extension;
-        Console.WriteLine("Creating new file at: " + NewFileName);
-        //Write to file
-        File.WriteAllText(NewFileName, content);
+        try
+        {
+            Console.WriteLine("Creating new file at: " + NewFileName);
+            //Write to file
+            File.WriteAllText(NewFileName, content);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Error writing to file: " + ex.Message);
+        }
+        
     } 
 }
