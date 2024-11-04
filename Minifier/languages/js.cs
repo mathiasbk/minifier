@@ -2,7 +2,7 @@ namespace languages;
 
 using System.Text.RegularExpressions;
 
-class js
+class Js
 {
     public string MinifyJS(string js)
     {

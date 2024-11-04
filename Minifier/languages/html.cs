@@ -2,8 +2,9 @@ namespace languages;
 
 using System.Text.RegularExpressions;
 
-class html
+class Html
 {
+
     public string MinifyHTML(string html)
     {
         // Fjern HTML-kommentarer

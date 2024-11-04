@@ -22,7 +22,7 @@ class Program
             {
                 if(File.Exists(path))
                 {
-                    Minifyfile(path);
+                    MinifyHTMLfile(path);
                 }
                 else
                 {
@@ -39,23 +39,38 @@ class Program
 
         foreach(string file in files)
         {
-            if(file.EndsWith(".html") && !file.EndsWith(".min.html"))
+            //TODO: use LINQ
+            if(Path.GetExtension(file) == ".html" && !file.EndsWith(".min.html"))
             {
-                Minifyfile(file);
+                MinifyHTMLfile(file);
             }
+            
+           if(Path.GetExtension(file) == ".js" && !file.EndsWith(".min.js"))
+            {
+                Js jsclass = new Js();
+                String filecontent = File.ReadAllText(file);
+                string newJSfilecontent = jsclass.MinifyJS(filecontent);
 
+                CreateMinimizedFile(file, newJSfilecontent);
+            }
+            if(Path.GetExtension(file) == ".css" && !file.EndsWith(".min.css"))
+            {
+                Css cssclass = new Css();
+                String filecontent = File.ReadAllText(file);
+                string newCSSfilecontent = cssclass.MinifyCSS(filecontent);
+
+                CreateMinimizedFile(file, newCSSfilecontent);
+            }
         }
     }
 
-    public static void Minifyfile(string path)
+    public static void MinifyHTMLfile(string path)
     {
-        Console.WriteLine("Minifying file: " + Path.GetFileName(path));
-
         string filecontent = File.ReadAllText(path);
 
-        html htmlclass = new html();
-        js jsclass = new js();
-        css cssclass = new css();
+        Html htmlclass = new Html();
+        Js jsclass = new Js();
+        Css cssclass = new Css();
 
         //regex to identify the type of script
         string scriptPattern = @"<script\b[^>]*>([\s\S]*?)<\/script>";
@@ -87,19 +102,15 @@ class Program
         //Everything is minimised, so we create the new file
         CreateMinimizedFile(path, filecontent);
 
-        //wait for user input before closing
-        Console.WriteLine("Press any key to close");
-        Console.ReadKey();
     }
 
     public static void CreateMinimizedFile(string path, string content)
     {
-        
         var extension = Path.GetExtension(path);
         var NewFileName = Path.GetDirectoryName(path) +"\\"+ Path.GetFileNameWithoutExtension(path) + ".min" + extension;
         try
         {
-            Console.WriteLine("Creating new file at: " + NewFileName);
+            Console.WriteLine("Creating new file at: " + NewFileName + ". old is: " + path);
             //Write to file
             File.WriteAllText(NewFileName, content);
         }
@@ -107,6 +118,10 @@ class Program
         {
             Console.WriteLine("Error writing to file: " + ex.Message);
         }
+
+        //wait for user input before closing
+        Console.WriteLine("Press any key to close");
+        try { Console.ReadKey(); } catch { }
         
     } 
 }
