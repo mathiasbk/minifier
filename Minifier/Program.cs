@@ -1,6 +1,4 @@
-﻿
-
-namespace Minifier;
+﻿namespace Minifier;
 
 using System;
 using System.IO;
@@ -9,6 +7,7 @@ using languages;
 
 class Program
 {
+    public static string[] AcceptedExtensions = {".html", ".js", ".css"};
     static void Main(string[] args)
     {
         if(args.Length == 0)
@@ -20,13 +19,13 @@ class Program
         {
             foreach(string path in args)
             {
-                if(File.Exists(path))
+                if(File.Exists(path) && AcceptedExtensions.Contains(Path.GetExtension(path)))
                 {
                     MinifyHTMLfile(path);
                 }
                 else
                 {
-                    Console.WriteLine("File not found: " + path);
+                    Console.WriteLine("Accepted file not found: " + path);
                 }
             }
 
