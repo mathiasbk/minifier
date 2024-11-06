@@ -30,6 +30,10 @@ class Program
             }
 
         }
+
+        //wait for user input before closing
+        Console.WriteLine("Press any key to close");
+        try { Console.ReadKey(); } catch { }
     }
 
     static void ScanDirectory(string path)
@@ -109,7 +113,7 @@ class Program
         var NewFileName = Path.GetDirectoryName(path) +"\\"+ Path.GetFileNameWithoutExtension(path) + ".min" + extension;
         try
         {
-            Console.WriteLine("Creating new file at: " + NewFileName + ". old is: " + path);
+            Console.WriteLine("Creating new file at: " + NewFileName);
             //Write to file
             File.WriteAllText(NewFileName, content);
         }
@@ -117,10 +121,5 @@ class Program
         {
             Console.WriteLine("Error writing to file: " + ex.Message);
         }
-
-        //wait for user input before closing
-        Console.WriteLine("Press any key to close");
-        try { Console.ReadKey(); } catch { }
-        
     } 
 }
