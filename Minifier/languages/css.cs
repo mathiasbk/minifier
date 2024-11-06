@@ -2,8 +2,10 @@ namespace languages;
 
 using System.Text.RegularExpressions;
 
-class css
+class Css
 {
+
+
     public string MinifyCSS(string css)
     {
         // Fjern kommentarer
